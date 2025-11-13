@@ -2,12 +2,39 @@
 
 > SecureDocs is a modern React + Firebase platform to collect, store, and share sensitive family or business paperwork—with enterprise‑grade controls, Cloudinary media handling, and an owner/admin back office.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-document--share--a2f75.web.app-10B981?style=flat-square&logo=googlechrome&logoColor=white)](https://document-share-a2f75.web.app)
 [![GitHub](https://img.shields.io/badge/GitHub-Arbab--ofc%2Fsecure--docs-181717?logo=github&style=flat-square)](https://github.com/Arbab-ofc/secure-docs)
 [![Vite](https://img.shields.io/badge/Built%20with-Vite-646CFF?logo=vite&style=flat-square)](#-tech-stack)
 [![Firebase](https://img.shields.io/badge/Backend-Firebase-FFCA28?logo=firebase&style=flat-square)](#-infrastructure)
 [![Cloudinary](https://img.shields.io/badge/Assets-Cloudinary-3693F3?logo=cloudinary&style=flat-square)](#-cloudinary-setup)
 
+> **Live now:** https://document-share-a2f75.web.app  
+> Login, upload a document, and test public sharing end-to-end in seconds.
+
 ---
+
+## 🔗 Quick Links
+
+| Action | Link |
+| --- | --- |
+| 🌐 Live site | [document-share-a2f75.web.app](https://document-share-a2f75.web.app) |
+| 🧠 Project board | [GitHub Repo](https://github.com/Arbab-ofc/secure-docs) |
+| 📄 Deployment guide | [Firebase Hosting steps](#4-production-build) |
+| 🔐 Rules snippet | [Firestore rules](#-security--roles) |
+
+---
+
+## 🧭 Table of Contents
+
+1. [Why SecureDocs?](#-why-securedocs)
+2. [Architecture & Stack](#-architecture--stack)
+3. [Getting Started](#-getting-started)
+4. [Cloudinary Setup](#-cloudinary-setup)
+5. [Security & Roles + Full Rules](#-security--roles)
+6. [Feature Highlights](#-feature-highlights)
+7. [Scripts](#-scripts)
+8. [Deployment Checklist](#-deployment-checklist)
+9. [Contributing & Support](#-contributing)
 
 ## ✨ Why SecureDocs?
 
@@ -115,43 +142,74 @@ firebase deploy --only hosting
 - **Route guards**: `ProtectedRoute`, `VerifiedRoute`, `AdminRoute`, and `PublicRoute` ensure only the correct audience loads each screen.
 - **Password flows**: Login page includes “Forgot password?” linking to a reset view; profile includes instant change-password with reauthentication.
 
-Sample Firestore rule snippet (adapt for your project):
+### 🔒 Full Firestore Rules
 
 ```js
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
     function currentUserRole() {
-      return request.auth != null
+      return isSignedIn()
         ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
         : null;
     }
+
     function isAdminOrOwner() {
       return ['admin', 'owner'].hasAny([currentUserRole()]);
     }
+
     function isOwner() {
       return currentUserRole() == 'owner';
     }
 
     match /users/{userId} {
-      allow read: if request.auth != null &&
+      allow create: if isSignedIn();
+      allow read: if isSignedIn() &&
         (request.auth.uid == userId || isAdminOrOwner());
-      allow create: if request.auth != null;
-      allow update: if request.auth != null &&
-        (request.auth.uid == userId ||
-          (isOwner() && request.resource.data.role != null));
+      allow update: if isSignedIn() &&
+        (
+          request.auth.uid == userId || // self updates
+          (isOwner() && request.resource.data.role != null) || // owners manage roles
+          (isAdminOrOwner() &&
+            (!('role' in request.resource.data) || request.resource.data.role != 'owner'))
+        );
       allow delete: if false;
     }
 
+    match /documents/{documentId} {
+      allow create: if isSignedIn() &&
+        request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if isSignedIn() &&
+        request.auth.uid == resource.data.userId;
+      allow read: if resource.data.shareEnabled == true;
+    }
+
+    match /otps/{otpId} {
+      allow read, write: if isSignedIn();
+    }
+
     match /contacts/{contactId} {
-      allow create: if (request.auth != null &&
+      allow create: if (isSignedIn() &&
         request.resource.data.userId == request.auth.uid) ||
-        (request.auth == null && request.resource.data.userId == null);
-      allow read, update, delete: if request.auth != null &&
+        (!isSignedIn() && request.resource.data.userId == null);
+      allow read, update, delete: if isSignedIn() &&
         (request.auth.uid == resource.data.userId || isAdminOrOwner());
     }
 
-    // …keep the rest of your document/OTP/share rules here
+    match /sharedDocuments/{logId} {
+      allow write: if isSignedIn();
+      allow read: if isSignedIn() &&
+        request.auth.uid == resource.data.sharedBy;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }
 ```
