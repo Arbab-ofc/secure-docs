@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read their own profile and update allowed fields
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // Users can read and write their own documents
+    match /documents/{documentId} {
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
+      allow read: if resource.data.shareEnabled == true;
+    }
+
+    // Users can read and write their OTP entries
+    match /otps/{otpId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Users can read and write their own contact messages
+    match /contacts/{contactId} {
+      allow create: if (request.auth != null && request.resource.data.userId == request.auth.uid) ||
+        (request.auth == null && request.resource.data.userId == null);
+      allow read, update, delete: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
+    }
+
+    // Users can write shared document logs
+    match /sharedDocuments/{logId} {
+      allow write: if request.auth != null;
+      allow read: if request.auth != null &&
+        request.auth.uid == resource.data.sharedBy;
+    }
+
+    // Deny all other reads and writes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
