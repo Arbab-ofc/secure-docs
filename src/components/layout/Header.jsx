@@ -13,15 +13,16 @@ import {
   FiUserPlus,
   FiShield,
   FiFileText,
-  FiShare2
+  FiShare2,
+  FiUsers
 } from 'react-icons/fi';
 
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { cn } from '../../utils/helpers';
+import { cn, getUserInitial } from '../../utils/helpers';
 
 const Header = () => {
-  const { user, userProfile, logout, isAuthenticated } = useAuth();
+  const { user, userProfile, logout, isAuthenticated, hasAdminAccess } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
-  // Handle scroll effect
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -40,12 +41,12 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
+  
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Navigation items
+  
   const navItems = [
     { name: 'Home', path: '/', icon: FiHome },
     { name: 'About', path: '/about', icon: FiFileText },
@@ -54,7 +55,8 @@ const Header = () => {
 
   const authItems = isAuthenticated
     ? [
-        { name: 'Dashboard', path: '/dashboard', icon: FiShield }
+        { name: 'Dashboard', path: '/dashboard', icon: FiShield },
+        ...(hasAdminAccess ? [{ name: 'Admin', path: '/admin', icon: FiUsers }] : [])
       ]
     : [
         { name: 'Login', path: '/login', icon: FiLogIn },
@@ -88,7 +90,7 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {}
           <Link
             to="/"
             className="flex items-center space-x-2 group"
@@ -101,7 +103,7 @@ const Header = () => {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -125,26 +127,16 @@ const Header = () => {
             })}
           </nav>
 
-          {/* Right side actions */}
-          <div className="flex items-center space-x-4">
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle theme"
-            >
-              <motion.div
-                key={isDark ? 'moon' : 'sun'}
-                initial={{ rotate: -180, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 180, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {isDark ? <FiMoon className="text-lg" /> : <FiSun className="text-lg" />}
-              </motion.div>
-            </button>
+          {}
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            {}
+            <ThemeToggleButton
+              isDark={isDark}
+              toggleTheme={toggleTheme}
+              className="hidden sm:inline-flex"
+            />
 
-            {/* User menu */}
+            {}
             {isAuthenticated ? (
               <div className="relative">
                 <button
@@ -160,7 +152,7 @@ const Header = () => {
                   ) : (
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
                       <span className="text-white font-semibold text-sm">
-                        {userProfile?.displayName?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase()}
+                        {getUserInitial(userProfile?.displayName, user?.email)}
                       </span>
                     </div>
                   )}
@@ -196,6 +188,17 @@ const Header = () => {
                         <FiShield />
                         <span>Dashboard</span>
                       </Link>
+
+                      {hasAdminAccess && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setShowUserDropdown(false)}
+                          className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        >
+                          <FiUsers />
+                          <span>Admin Board</span>
+                        </Link>
+                      )}
 
                       <Link
                         to="/profile"
@@ -238,7 +241,7 @@ const Header = () => {
               </div>
             )}
 
-            {/* Mobile menu button */}
+            {}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -272,7 +275,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -283,6 +286,17 @@ const Header = () => {
             className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"
           >
             <div className="px-4 py-6 space-y-2">
+              <div className="flex items-center justify-between sm:hidden pb-3 mb-3 border-b border-gray-200 dark:border-gray-800">
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">Appearance</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Toggle light / dark</p>
+                </div>
+                <ThemeToggleButton
+                  isDark={isDark}
+                  toggleTheme={toggleTheme}
+                  className="inline-flex sm:hidden"
+                />
+              </div>
               {allNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.path;
@@ -324,7 +338,7 @@ const Header = () => {
   );
 };
 
-// Chevron down icon component
+
 const ChevronDown = ({ className }) => (
   <svg
     className={cn('w-4 h-4 transition-transform', className)}
@@ -339,6 +353,27 @@ const ChevronDown = ({ className }) => (
       d="M19 9l-7 7-7-7"
     />
   </svg>
+);
+
+const ThemeToggleButton = ({ isDark, toggleTheme, className }) => (
+  <button
+    onClick={toggleTheme}
+    className={cn(
+      'p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors',
+      className
+    )}
+    aria-label="Toggle theme"
+  >
+    <motion.div
+      key={isDark ? 'moon' : 'sun'}
+      initial={{ rotate: -180, opacity: 0 }}
+      animate={{ rotate: 0, opacity: 1 }}
+      exit={{ rotate: 180, opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {isDark ? <FiMoon className="text-lg" /> : <FiSun className="text-lg" />}
+    </motion.div>
+  </button>
 );
 
 export default Header;

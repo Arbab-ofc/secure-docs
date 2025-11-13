@@ -8,7 +8,7 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
 
-  // Generate random particles
+  
   useEffect(() => {
     const generateParticles = () => {
       const newParticles = [];
@@ -39,7 +39,7 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, [variant]);
 
-  // Track mouse position
+  
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (containerRef.current) {
@@ -84,7 +84,7 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
       ref={containerRef}
       className={`relative overflow-hidden ${getBackgroundGradient()} transition-colors duration-300`}
     >
-      {/* Animated gradient overlay */}
+      {}
       <motion.div
         className="absolute inset-0 opacity-30"
         animate={{
@@ -102,7 +102,7 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
         }}
       />
 
-      {/* Particles */}
+      {}
       <AnimatePresence>
         {particles.map((particle) => (
           <motion.div
@@ -145,7 +145,7 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
         ))}
       </AnimatePresence>
 
-      {/* Mouse follower gradient */}
+      {}
       <motion.div
         className="pointer-events-none absolute w-64 h-64 rounded-full opacity-20"
         style={{
@@ -163,7 +163,7 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
         }}
       />
 
-      {/* Floating geometric shapes */}
+      {}
       {variant === 'hero' && (
         <>
           <motion.div
@@ -207,12 +207,12 @@ const AnimatedBackground = ({ children, variant = 'default' }) => {
         </>
       )}
 
-      {/* Content */}
+      {}
       <div className="relative z-10">
         {children}
       </div>
 
-      {/* Noise texture overlay */}
+      {}
       <div
         className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{

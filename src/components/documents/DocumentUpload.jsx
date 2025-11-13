@@ -33,7 +33,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
       const validation = validateFile(file, 'documents');
 
       if (validation.isValid) {
-        // Check for duplicates
+        
         const isDuplicate = files.some(f => f.name === file.name && f.size === file.size);
         if (!isDuplicate) {
           newFiles.push({
@@ -50,7 +50,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
     setFiles(prev => [...prev, ...newFiles]);
     setErrors(prev => ({ ...prev, ...newErrors }));
 
-    // Auto-generate title if empty and this is the first file
+    
     if (!title && newFiles.length > 0) {
       const fileName = newFiles[0].file.name.replace(/\.[^/.]+$/, '');
       setTitle(fileName);
@@ -148,7 +148,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
         className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         variants={containerVariants}
       >
-        {/* Header */}
+        {}
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -164,7 +164,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* File Upload Area */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Select Files
@@ -226,7 +226,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
             )}
           </div>
 
-          {/* Selected Files */}
+          {}
           {files.length > 0 && (
             <div>
               <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -262,9 +262,9 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
             </div>
           )}
 
-          {/* Document Details */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Category */}
+            {}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Category
@@ -285,7 +285,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
               </select>
             </div>
 
-            {/* Document Type */}
+            {}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Document Type
@@ -304,7 +304,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
             </div>
           </div>
 
-          {/* Title */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Title
@@ -325,7 +325,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
             )}
           </div>
 
-          {/* Description */}
+          {}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Description (Optional)
@@ -339,7 +339,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
             />
           </div>
 
-          {/* Form Errors */}
+          {}
           {Object.keys(errors).length > 0 && (
             <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
               <p className="text-sm text-red-800 dark:text-red-200">
@@ -348,7 +348,7 @@ const DocumentUpload = ({ onUpload, onClose, isUploading = false }) => {
             </div>
           )}
 
-          {/* Actions */}
+          {}
           <div className="flex items-center justify-end space-x-3 pt-4">
             <Button
               type="button"

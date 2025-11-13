@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
-import { formatDate } from '../utils/helpers';
+import { formatDate, getUserInitial } from '../utils/helpers';
+import ChangePasswordCard from '../components/profile/ChangePasswordCard';
 
 const Profile = () => {
   const { user, userProfile, loading } = useAuth();
@@ -38,7 +39,7 @@ const Profile = () => {
                 />
               ) : (
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-3xl font-bold">
-                  {userProfile?.displayName?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase()}
+                  {getUserInitial(userProfile?.displayName, user.email)}
                 </div>
               )}
               <div>
@@ -118,6 +119,8 @@ const Profile = () => {
             </div>
           </div>
         </motion.div>
+
+        <ChangePasswordCard />
       </div>
     </div>
   );

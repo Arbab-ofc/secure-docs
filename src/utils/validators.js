@@ -1,7 +1,7 @@
-// Email validation regex
+
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Password validation
+
 export const passwordRegex = {
   minLength: /.{8,}/,
   hasUpperCase: /[A-Z]/,
@@ -10,25 +10,25 @@ export const passwordRegex = {
   hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/
 };
 
-// Aadhaar number validation (12 digits)
+
 export const aadhaarRegex = /^\d{12}$/;
 
-// Phone number validation (Indian format)
+
 export const phoneRegex = /^[+]?[\d\s\-()]{10,}$/;
 
-// File validation
+
 const imageTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
 const docTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
 export const allowedFileTypes = {
   images: imageTypes,
-  documents: [...docTypes, ...imageTypes], // dashboard allows PDFs, docs, and images
+  documents: [...docTypes, ...imageTypes], 
   all: [...docTypes, ...imageTypes]
 };
 
-export const maxFileSize = 10 * 1024 * 1024; // 10MB
+export const maxFileSize = 10 * 1024 * 1024; 
 
-// Document categories
+
 export const documentCategories = [
   { value: 'education', label: 'Education', icon: '🎓' },
   { value: 'healthcare', label: 'Healthcare', icon: '🏥' },
@@ -37,7 +37,7 @@ export const documentCategories = [
   { value: 'others', label: 'Others', icon: '📄' }
 ];
 
-// Category icons mapping
+
 export const categoryIcons = {
   education: '🎓',
   healthcare: '🏥',
@@ -46,7 +46,7 @@ export const categoryIcons = {
   others: '📄'
 };
 
-// Document types
+
 export const documentTypes = {
   education: [
     { value: 'marksheet', label: 'Mark Sheet' },
@@ -78,7 +78,7 @@ export const documentTypes = {
   ]
 };
 
-// Validation functions
+
 export const validateEmail = (email) => {
   return emailRegex.test(email);
 };
@@ -124,13 +124,13 @@ export const validateFile = (file, category = 'documents') => {
     return { isValid: false, errors };
   }
 
-  // Check file type
+  
   const allowedTypes = allowedFileTypes[category] || allowedFileTypes.all;
   if (!allowedTypes.includes(file.type)) {
     errors.push(`File type ${file.type} is not allowed`);
   }
 
-  // Check file size
+  
   if (file.size > maxFileSize) {
     errors.push('File size must be less than 10MB');
   }
@@ -141,7 +141,7 @@ export const validateFile = (file, category = 'documents') => {
   };
 };
 
-// Sanitize functions
+
 export const sanitizeInput = (input) => {
   return input.trim().replace(/[<>]/g, '');
 };

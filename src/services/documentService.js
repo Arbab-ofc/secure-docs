@@ -18,13 +18,13 @@ import {
   increment
 } from 'firebase/firestore';
 
-// Collection references
+
 const documentsCollection = collection(db, 'documents');
 const sharedLogsCollection = collection(db, 'sharedDocuments');
 
-// Document service class
+
 class DocumentService {
-  // Upload document metadata to Firestore
+  
   async uploadDocument(userId, documentData) {
     try {
       const docRef = await addDoc(documentsCollection, {
@@ -46,7 +46,7 @@ class DocumentService {
         updatedAt: serverTimestamp()
       });
 
-      // Update user document count
+      
       await this.updateUserDocumentCount(userId, 1);
 
       return {
@@ -64,7 +64,7 @@ class DocumentService {
     }
   }
 
-  // Get documents for a user with pagination
+  
   async getUserDocuments(userId, options = {}) {
     try {
       const {
@@ -78,15 +78,15 @@ class DocumentService {
 
       let q = query(documentsCollection, where('userId', '==', userId));
 
-      // Apply filters
+      
       if (category && category !== 'all') {
         q = query(q, where('category', '==', category));
       }
 
-      // Apply sorting
+      
       q = query(q, orderBy(sortBy, sortOrder));
 
-      // Apply pagination
+      
       q = query(q, limit(pageSize));
 
       if (startAfterDoc) {
@@ -105,7 +105,7 @@ class DocumentService {
         });
       });
 
-      // Apply search filter (client-side for now)
+      
       if (search) {
         const filteredDocuments = documents.filter(doc =>
           doc.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -135,7 +135,7 @@ class DocumentService {
     }
   }
 
-  // Get a single document by ID
+  
   async getDocument(documentId, userId = null) {
     try {
       const docRef = doc(db, 'documents', documentId);
@@ -155,7 +155,7 @@ class DocumentService {
         updatedAt: docSnap.data().updatedAt?.toDate() || new Date()
       };
 
-      // Check if user has access
+      
       if (userId && documentData.userId !== userId) {
         return {
           success: false,
@@ -176,10 +176,10 @@ class DocumentService {
     }
   }
 
-  // Update document metadata
+  
   async updateDocument(documentId, userId, updateData) {
     try {
-      // Verify ownership first
+      
       const docRef = doc(db, 'documents', documentId);
       const docSnap = await getDoc(docRef);
 
@@ -197,7 +197,7 @@ class DocumentService {
         };
       }
 
-      // Update document
+      
       await updateDoc(docRef, {
         ...updateData,
         updatedAt: serverTimestamp()
@@ -216,10 +216,10 @@ class DocumentService {
     }
   }
 
-  // Delete document
+  
   async deleteDocument(documentId, userId) {
     try {
-      // Verify ownership first
+      
       const docRef = doc(db, 'documents', documentId);
       const docSnap = await getDoc(docRef);
 
@@ -237,10 +237,10 @@ class DocumentService {
         };
       }
 
-      // Delete document
+      
       await deleteDoc(docRef);
 
-      // Update user document count
+      
       await this.updateUserDocumentCount(userId, -1);
 
       return {
@@ -256,13 +256,13 @@ class DocumentService {
     }
   }
 
-  // Enable/disable sharing
+  
   async updateDocumentSharing(documentId, userId, shareData) {
     try {
       const result = await this.updateDocument(documentId, userId, shareData);
 
       if (result.success) {
-        // Log sharing activity
+        
         if (shareData.shareEnabled) {
           await this.logSharedDocument(documentId, userId, 'enabled');
         }
@@ -278,7 +278,7 @@ class DocumentService {
     }
   }
 
-  // Get public document (for sharing)
+  
   async getPublicDocument(documentId) {
     try {
       const docRef = doc(db, 'documents', documentId);
@@ -300,7 +300,7 @@ class DocumentService {
         };
       }
 
-      // Check if sharing has expired
+      
       if (documentData.shareExpiry) {
         const expiryTime = documentData.shareExpiry.toDate();
         if (new Date() > expiryTime) {
@@ -311,12 +311,12 @@ class DocumentService {
         }
       }
 
-      // Increment view count
+      
       await updateDoc(docRef, {
         viewCount: increment(1)
       });
 
-      // Log access
+      
       await this.logSharedDocument(documentId, documentData.userId, 'viewed');
 
       return {
@@ -332,7 +332,7 @@ class DocumentService {
           createdAt: documentData.createdAt?.toDate() || new Date(),
           viewCount: documentData.viewCount + 1,
           sharedBy: {
-            name: 'Anonymous', // Would fetch from user document
+            name: 'Anonymous', 
             email: 'User'
           }
         }
@@ -346,7 +346,7 @@ class DocumentService {
     }
   }
 
-  // Get document statistics
+  
   async getUserDocumentStats(userId) {
     try {
       const q = query(
@@ -398,24 +398,24 @@ class DocumentService {
     }
   }
 
-  // Log shared document access
+  
   async logSharedDocument(documentId, userId, action) {
     try {
       await addDoc(sharedLogsCollection, {
         documentId,
         sharedBy: userId,
-        action, // 'enabled', 'disabled', 'viewed'
+        action, 
         accessedAt: serverTimestamp(),
-        ipAddress: null, // Could be captured on backend
+        ipAddress: null, 
         userAgent: navigator.userAgent
       });
     } catch (error) {
       console.error('Error logging shared document:', error);
-      // Don't throw error as this is non-critical
+      
     }
   }
 
-  // Update user document count (helper method)
+  
   async updateUserDocumentCount(userId, increment) {
     try {
       const userRef = doc(db, 'users', userId);
@@ -427,7 +427,7 @@ class DocumentService {
     }
   }
 
-  // Search documents
+  
   async searchDocuments(userId, searchTerm, options = {}) {
     try {
       const {
@@ -450,7 +450,7 @@ class DocumentService {
       querySnapshot.forEach((doc) => {
         const docData = doc.data();
 
-        // Apply search filter
+        
         if (searchTerm) {
           const searchLower = searchTerm.toLowerCase();
           const matchesTitle = docData.title?.toLowerCase().includes(searchLower);
@@ -464,7 +464,7 @@ class DocumentService {
           }
         }
 
-        // Apply category filter
+        
         if (category !== 'all' && docData.category !== category) {
           return;
         }
@@ -493,5 +493,5 @@ class DocumentService {
   }
 }
 
-// Export singleton instance
+
 export default new DocumentService();

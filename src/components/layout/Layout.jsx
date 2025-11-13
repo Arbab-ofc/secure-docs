@@ -34,10 +34,10 @@ const Layout = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
+      {}
       <Header />
 
-      {/* Main content */}
+      {}
       <main className="flex-grow">
         <AnimatePresence mode="wait">
           <motion.div
@@ -54,7 +54,7 @@ const Layout = ({ children }) => {
         </AnimatePresence>
       </main>
 
-      {/* Footer */}
+      {}
       <Footer />
     </div>
   );

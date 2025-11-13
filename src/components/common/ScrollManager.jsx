@@ -6,7 +6,7 @@ const ScrollManager = () => {
 
   useEffect(() => {
     if (hash) {
-      // Use rAF to ensure DOM has rendered before querying the anchor.
+      
       const scrollToHash = () => {
         const target = document.querySelector(hash);
         if (target) {

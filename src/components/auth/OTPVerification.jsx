@@ -16,13 +16,13 @@ const OTPVerification = () => {
   const [isResending, setIsResending] = useState(false);
   const [error, setError] = useState('');
   const [isExpired, setIsExpired] = useState(false);
-  const [verificationStatus, setVerificationStatus] = useState('pending'); // pending, success, error
+  const [verificationStatus, setVerificationStatus] = useState('pending'); 
 
   const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
 
   const email = location.state?.email || 'your email address';
 
-  // Countdown timer
+  
   useEffect(() => {
     if (timeLeft > 0 && verificationStatus === 'pending') {
       const timer = setTimeout(() => {
@@ -35,16 +35,16 @@ const OTPVerification = () => {
     }
   }, [timeLeft, verificationStatus]);
 
-  // Format time display
+  
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  // Handle input change
+  
   const handleChange = (index, value) => {
-    // Only allow numbers
+    
     const numericValue = value.replace(/[^0-9]/g, '').slice(0, 1);
 
     const newOtp = [...otp];
@@ -69,7 +69,7 @@ const OTPVerification = () => {
     }
   };
 
-  // Handle paste
+  
   const handlePaste = (e) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
@@ -99,10 +99,10 @@ const OTPVerification = () => {
       // For demo purposes, we'll simulate the verification
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Simulate successful verification
+      
       setVerificationStatus('success');
 
-      // Navigate to dashboard after success
+      
       setTimeout(() => {
         navigate('/dashboard');
       }, 2000);
@@ -115,7 +115,7 @@ const OTPVerification = () => {
     }
   };
 
-  // Resend OTP
+  
   const handleResend = async () => {
     setIsResending(true);
     setError('');
@@ -130,7 +130,7 @@ const OTPVerification = () => {
       setIsExpired(false);
       setVerificationStatus('pending');
 
-      // Focus first input
+      
       inputRefs[0].current?.focus();
 
     } catch (error) {
@@ -178,7 +178,7 @@ const OTPVerification = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Back button */}
+        {}
         <motion.button
           onClick={() => navigate('/login')}
           className="mb-6 flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
@@ -188,12 +188,12 @@ const OTPVerification = () => {
           Back to login
         </motion.button>
 
-        {/* Verification card */}
+        {}
         <motion.div
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700"
           variants={itemVariants}
         >
-          {/* Status icon */}
+          {}
           <div className="text-center mb-6">
             <AnimatePresence mode="wait">
               {verificationStatus === 'success' ? (
@@ -230,7 +230,7 @@ const OTPVerification = () => {
             </AnimatePresence>
           </div>
 
-          {/* Title and description */}
+          {}
           <div className="text-center mb-6">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
               {verificationStatus === 'success' ? 'Email Verified!' : 'Verify Your Email'}
@@ -253,7 +253,7 @@ const OTPVerification = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                {/* OTP input fields */}
+                {}
                 <div className="flex justify-center space-x-2">
                   {otp.map((digit, index) => (
                     <input
@@ -278,7 +278,7 @@ const OTPVerification = () => {
                   ))}
                 </div>
 
-                {/* Error message */}
+                {}
                 {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -289,7 +289,7 @@ const OTPVerification = () => {
                   </motion.div>
                 )}
 
-                {/* Timer */}
+                {}
                 {!isExpired && (
                   <div className="text-center">
                     <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -298,7 +298,7 @@ const OTPVerification = () => {
                   </div>
                 )}
 
-                {/* Expired message */}
+                {}
                 {isExpired && (
                   <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
                     <p className="text-sm text-yellow-800 dark:text-yellow-200">
@@ -307,7 +307,7 @@ const OTPVerification = () => {
                   </div>
                 )}
 
-                {/* Verify button */}
+                {}
                 <Button
                   type="submit"
                   fullWidth

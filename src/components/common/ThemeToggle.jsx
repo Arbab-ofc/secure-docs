@@ -25,7 +25,7 @@ const ThemeToggle = ({ className = '', size = 'md' }) => {
   return (
     <div className={`relative ${className}`}>
       <div className={`flex items-center bg-gray-100 dark:bg-gray-800 rounded-full p-1 ${sizeClasses[size]}`}>
-        {/* Animated background */}
+        {}
         <motion.div
           className="absolute bg-white dark:bg-gray-700 rounded-full shadow-md"
           style={{
@@ -42,7 +42,7 @@ const ThemeToggle = ({ className = '', size = 'md' }) => {
           }}
         />
 
-        {/* System theme button */}
+        {}
         <button
           onClick={() => handleThemeChange('system')}
           className={`relative z-10 w-1/3 h-full flex items-center justify-center rounded-full transition-colors ${
@@ -55,7 +55,7 @@ const ThemeToggle = ({ className = '', size = 'md' }) => {
           <FiMonitor className={iconSizes[size]} />
         </button>
 
-        {/* Light theme button */}
+        {}
         <button
           onClick={() => handleThemeChange('light')}
           className={`relative z-10 w-1/3 h-full flex items-center justify-center rounded-full transition-colors ${
@@ -68,7 +68,7 @@ const ThemeToggle = ({ className = '', size = 'md' }) => {
           <FiSun className={iconSizes[size]} />
         </button>
 
-        {/* Dark theme button */}
+        {}
         <button
           onClick={() => handleThemeChange('dark')}
           className={`relative z-10 w-1/3 h-full flex items-center justify-center rounded-full transition-colors ${
@@ -82,7 +82,7 @@ const ThemeToggle = ({ className = '', size = 'md' }) => {
         </button>
       </div>
 
-      {/* Theme label */}
+      {}
       <div className="mt-2 text-center">
         <span className="text-xs text-gray-500 dark:text-gray-400 capitalize">
           {theme === 'system' ? 'System' : theme}
@@ -92,7 +92,7 @@ const ThemeToggle = ({ className = '', size = 'md' }) => {
   );
 };
 
-// Simple toggle version for header
+
 export const SimpleThemeToggle = ({ className = '' }) => {
   const { toggleTheme, isDark } = useTheme();
 

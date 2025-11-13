@@ -7,7 +7,7 @@ import { QRCode } from 'react-qr-code';
 import { useTheme } from '../context/ThemeContext';
 import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
-import { formatDate, formatFileSize, copyToClipboard } from '../utils/helpers';
+import { formatDate, formatFileSize, copyToClipboard, getUserInitial } from '../utils/helpers';
 
 const PublicDocument = () => {
   const { documentId } = useParams();
@@ -18,7 +18,7 @@ const PublicDocument = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  // Mock document data - in real app, fetch from API
+  
   const mockDocument = {
     id: documentId,
     title: 'Sample Passport Document',
@@ -29,7 +29,7 @@ const PublicDocument = () => {
     createdAt: new Date('2024-01-15'),
     shareEnabled: true,
     viewCount: 42,
-    downloadUrl: '#', // Would be actual download URL
+    downloadUrl: '#', 
     sharedBy: {
       name: 'John Doe',
       email: 'john@example.com'
@@ -37,7 +37,7 @@ const PublicDocument = () => {
   };
 
   useEffect(() => {
-    // Simulate fetching document
+    
     const fetchDocument = async () => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       setDocument(mockDocument);
@@ -58,7 +58,7 @@ const PublicDocument = () => {
   };
 
   const handleDownload = () => {
-    // Simulate download
+    
     alert('Download would start here in a real application');
   };
 
@@ -124,7 +124,7 @@ const PublicDocument = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {}
         <motion.div
           className="text-center mb-8"
           initial={{ opacity: 0, y: -20 }}
@@ -148,13 +148,13 @@ const PublicDocument = () => {
           initial="hidden"
           animate="visible"
         >
-          {/* Document Preview */}
+          {}
           <motion.div
             className="lg:col-span-2"
             variants={itemVariants}
           >
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-              {/* Document Header */}
+              {}
               <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -185,7 +185,7 @@ const PublicDocument = () => {
                 </div>
               </div>
 
-              {/* Document Preview Area */}
+              {}
               <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
                 <div className="h-96 bg-white dark:bg-gray-900 rounded-lg shadow-inner flex items-center justify-center">
                   <div className="text-center">
@@ -202,7 +202,7 @@ const PublicDocument = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
+              {}
               <div className="p-6 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
@@ -234,9 +234,9 @@ const PublicDocument = () => {
             </div>
           </motion.div>
 
-          {/* Sidebar */}
+          {}
           <div className="space-y-6">
-            {/* QR Code */}
+            {}
             <motion.div
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
               variants={itemVariants}
@@ -260,7 +260,7 @@ const PublicDocument = () => {
               </p>
             </motion.div>
 
-            {/* Document Info */}
+            {}
             <motion.div
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
               variants={itemVariants}
@@ -296,7 +296,7 @@ const PublicDocument = () => {
               </div>
             </motion.div>
 
-            {/* Shared By */}
+            {}
             <motion.div
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
               variants={itemVariants}
@@ -307,7 +307,7 @@ const PublicDocument = () => {
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold">
-                    {document.sharedBy.name.charAt(0)}
+                    {getUserInitial(document.sharedBy.name, document.sharedBy.email)}
                   </span>
                 </div>
                 <div>
@@ -321,7 +321,7 @@ const PublicDocument = () => {
               </div>
             </motion.div>
 
-            {/* Security Notice */}
+            {}
             <motion.div
               className="bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-xl p-6 border border-primary-200 dark:border-primary-800"
               variants={itemVariants}
@@ -341,7 +341,7 @@ const PublicDocument = () => {
           </div>
         </motion.div>
 
-        {/* Footer */}
+        {}
         <motion.div
           className="mt-12 text-center"
           variants={itemVariants}

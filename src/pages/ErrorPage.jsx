@@ -39,7 +39,7 @@ const ErrorPage = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Error Code */}
+        {}
         <motion.div
           className="mb-8"
           variants={itemVariants}
@@ -49,7 +49,7 @@ const ErrorPage = () => {
           </div>
         </motion.div>
 
-        {/* Error Message */}
+        {}
         <motion.div
           className="mb-8"
           variants={itemVariants}
@@ -65,7 +65,7 @@ const ErrorPage = () => {
           </p>
         </motion.div>
 
-        {/* Error Illustration */}
+        {}
         <motion.div
           className="mb-8"
           variants={itemVariants}
@@ -86,7 +86,7 @@ const ErrorPage = () => {
           </div>
         </motion.div>
 
-        {/* Action Buttons */}
+        {}
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center"
           variants={itemVariants}
@@ -109,7 +109,7 @@ const ErrorPage = () => {
           </Button>
         </motion.div>
 
-        {/* Helpful Links */}
+        {}
         <motion.div
           className="mt-12"
           variants={itemVariants}
@@ -145,7 +145,7 @@ const ErrorPage = () => {
           </div>
         </motion.div>
 
-        {/* Report Issue */}
+        {}
         <motion.div
           className="mt-12"
           variants={itemVariants}

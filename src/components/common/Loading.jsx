@@ -126,7 +126,7 @@ const Loading = ({
   );
 };
 
-// Specialized loading components
+
 export const PageLoading = () => (
   <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
     <Loading size="xl" text="Loading SecureDocs..." variant="pulse" />

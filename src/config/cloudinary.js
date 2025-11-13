@@ -14,14 +14,14 @@ export const cloudinaryConfig = {
   baseFolder: import.meta.env.VITE_CLOUDINARY_BASE_FOLDER || 'secure-documents'
 };
 
-// Upload presets for different document types
+
 export const uploadPresets = {
   documents: "document_share",
   images: "image_share",
   profiles: "profile_pictures"
 };
 
-// Folder structure for organization
+
 export const folderStructure = {
   education: "education-documents",
   healthcare: "healthcare-records",
@@ -30,7 +30,7 @@ export const folderStructure = {
   others: "other-documents"
 };
 
-// Transform options for different document types
+
 export const transformOptions = {
   thumbnail: {
     width: 200,
@@ -52,7 +52,7 @@ export const transformOptions = {
   }
 };
 
-// Security configurations
+
 export const securityConfig = {
   resourceType: "auto",
   type: "upload",

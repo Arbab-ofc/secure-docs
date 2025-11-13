@@ -53,7 +53,7 @@ const Register = () => {
     }
   };
 
-  // Check password strength
+  
   useEffect(() => {
     if (formData.password) {
       const validation = validatePassword(formData.password);
@@ -86,21 +86,21 @@ const Register = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Full name validation
+    
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Full name is required';
     } else if (formData.fullName.trim().length < 2) {
       newErrors.fullName = 'Full name must be at least 2 characters';
     }
 
-    // Email validation
+    
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
 
-    // Password validation
+    
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else {
@@ -110,19 +110,19 @@ const Register = () => {
       }
     }
 
-    // Confirm password validation
+    
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    // Aadhaar validation (optional)
+    
     if (formData.aadhaarNumber && !validateAadhaar(formData.aadhaarNumber)) {
       newErrors.aadhaarNumber = 'Please enter a valid 12-digit Aadhaar number';
     }
 
-    // Terms agreement validation
+    
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
@@ -138,7 +138,7 @@ const Register = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
 
-    // Clear error when user starts typing
+    
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -183,7 +183,7 @@ const Register = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Logo and branding */}
+        {}
         <motion.div
           className="text-center mb-8"
           variants={itemVariants}
@@ -199,13 +199,13 @@ const Register = () => {
           </p>
         </motion.div>
 
-        {/* Registration form */}
+        {}
         <motion.div
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700"
           variants={itemVariants}
         >
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full name field */}
+            {}
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Full Name
@@ -236,7 +236,7 @@ const Register = () => {
               )}
             </div>
 
-            {/* Email field */}
+            {}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address
@@ -267,7 +267,7 @@ const Register = () => {
               )}
             </div>
 
-            {/* Password field */}
+            {}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
@@ -299,7 +299,7 @@ const Register = () => {
                 </button>
               </div>
 
-              {/* Password strength indicator */}
+              {}
               {formData.password && (
                 <div className="mt-2">
                   <div className="flex items-center justify-between mb-1">
@@ -323,7 +323,7 @@ const Register = () => {
               )}
             </div>
 
-            {/* Confirm password field */}
+            {}
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Confirm Password
@@ -361,7 +361,7 @@ const Register = () => {
               )}
             </div>
 
-            {/* Aadhaar number field (optional) */}
+            {}
             <div>
               <label htmlFor="aadhaarNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Aadhaar Number <span className="text-gray-400">(Optional)</span>
@@ -390,7 +390,7 @@ const Register = () => {
               )}
             </div>
 
-            {/* Terms and conditions */}
+            {}
             <div>
               <label className="flex items-start">
                 <input
@@ -419,7 +419,7 @@ const Register = () => {
               )}
             </div>
 
-            {/* Submit button */}
+            {}
             <Button
               type="submit"
               loading={isSubmitting}
@@ -431,7 +431,7 @@ const Register = () => {
             </Button>
           </form>
 
-          {/* Login link */}
+          {}
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
             <Link
@@ -443,7 +443,7 @@ const Register = () => {
           </p>
         </motion.div>
 
-        {/* Security notice */}
+        {}
         <motion.p
           className="mt-8 text-center text-xs text-gray-500 dark:text-gray-400"
           variants={itemVariants}

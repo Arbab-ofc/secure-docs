@@ -15,14 +15,14 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('light');
   const [mounted, setMounted] = useState(false);
 
-  // Initialize theme on mount
+  
   useEffect(() => {
     setMounted(true);
 
-    // Clear any corrupted localStorage data first
+    
     clearCorruptedStorage();
 
-    // Get theme from localStorage or system preference
+    
     const storedTheme = getStorageItem('theme', 'system');
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
@@ -30,7 +30,7 @@ export const ThemeProvider = ({ children }) => {
     setTheme(initialTheme);
     applyTheme(initialTheme);
 
-    // Listen for system theme changes
+    
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
       if (getStorageItem('theme', 'system') === 'system') {
@@ -44,7 +44,7 @@ export const ThemeProvider = ({ children }) => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Apply theme to document
+  
   const applyTheme = (themeValue) => {
     const root = document.documentElement;
 
@@ -55,7 +55,7 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
-  // Toggle theme between light and dark
+  
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
@@ -63,7 +63,7 @@ export const ThemeProvider = ({ children }) => {
     setStorageItem('theme', newTheme);
   };
 
-  // Set specific theme
+  
   const setThemeMode = (themeMode) => {
     let newTheme;
 
@@ -79,12 +79,12 @@ export const ThemeProvider = ({ children }) => {
     setStorageItem('theme', themeMode);
   };
 
-  // Get current theme mode (light/dark/system)
+  
   const getThemeMode = () => {
     return getStorageItem('theme', 'system');
   };
 
-  // Theme colors and styles
+  
   const themeColors = {
     light: {
       primary: '#0ea5e9',
@@ -116,10 +116,10 @@ export const ThemeProvider = ({ children }) => {
 
   const currentColors = themeColors[theme];
 
-  // Check if dark mode is active
+  
   const isDark = theme === 'dark';
 
-  // Theme-related utilities
+  
   const getThemedClass = (lightClass, darkClass) => {
     return isDark ? darkClass : lightClass;
   };
@@ -143,7 +143,7 @@ export const ThemeProvider = ({ children }) => {
     mounted
   };
 
-  // Avoid flash of incorrect theme
+  
   if (!mounted) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900">

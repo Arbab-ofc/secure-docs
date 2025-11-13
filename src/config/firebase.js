@@ -12,8 +12,8 @@ const configFromEnv = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Fall back to the previous hard-coded config for local setups that haven't
-// supplied environment variables yet.
+
+
 const fallbackConfig = {
   apiKey: 'AIzaSyDQp1n5btJ4D4Q1xB3jClDWmgejxJL5M74',
   authDomain: 'document-share-a2f75.firebaseapp.com',

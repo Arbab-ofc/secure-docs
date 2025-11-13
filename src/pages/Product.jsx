@@ -123,7 +123,7 @@ const Product = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-20">
-          {/* Hero */}
+          {}
           <motion.section
             className="text-center space-y-6"
             initial={{ opacity: 0, y: 20 }}
@@ -152,7 +152,7 @@ const Product = () => {
             </div>
           </motion.section>
 
-          {/* Features */}
+          {}
           <section id="features" className="space-y-12">
             <SectionHeader
               label="Features"
@@ -182,7 +182,7 @@ const Product = () => {
             </div>
           </section>
 
-          {/* Security */}
+          {}
           <section id="security" className="space-y-12">
             <SectionHeader
               label="Security"
@@ -211,7 +211,7 @@ const Product = () => {
             </div>
           </section>
 
-          {/* Pricing */}
+          {}
           <section id="pricing" className="space-y-12">
             <SectionHeader
               label="Pricing"
@@ -251,7 +251,7 @@ const Product = () => {
             </motion.div>
           </section>
 
-          {/* FAQ */}
+          {}
           <section id="faq" className="space-y-12">
             <SectionHeader
               label="FAQ"

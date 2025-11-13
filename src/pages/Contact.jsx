@@ -84,7 +84,7 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
+          {}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -175,7 +175,7 @@ const Contact = () => {
             </motion.div>
           </motion.div>
 
-          {/* Contact Information */}
+          {}
           <motion.div
             className="space-y-8"
             variants={containerVariants}

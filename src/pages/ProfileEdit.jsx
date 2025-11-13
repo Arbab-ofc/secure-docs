@@ -8,6 +8,7 @@ import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
 import { updateUserProfile } from '../services/profileService';
 import cloudinaryService from '../services/cloudinaryService';
+import { getUserInitial } from '../utils/helpers';
 
 const ProfileEdit = () => {
   const { user, userProfile, loading, refreshUserProfile } = useAuth();
@@ -138,7 +139,7 @@ const ProfileEdit = () => {
                 />
               ) : (
                 <div className="w-28 h-28 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-3xl font-bold">
-                  {formState.displayName?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase()}
+                  {getUserInitial(formState.displayName, user.email)}
                 </div>
               )}
               {avatarUploading && (

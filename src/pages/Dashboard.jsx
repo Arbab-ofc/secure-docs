@@ -49,7 +49,7 @@ const Dashboard = () => {
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // Load documents and stats
+  
   useEffect(() => {
     if (user) {
       loadDocuments();
@@ -91,7 +91,7 @@ const Dashboard = () => {
     try {
       setUploading(true);
 
-      // Upload files to Cloudinary first
+      
       const uploadResults = [];
       for (const file of uploadData.files) {
         const category = uploadData.category || 'others';
@@ -110,7 +110,7 @@ const Dashboard = () => {
         }
       }
 
-      // Save document metadata to Firestore (use first uploaded file for now)
+      
       if (uploadResults.length > 0) {
         const uploadResult = uploadResults[0];
 
@@ -239,7 +239,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-10">
-        {/* Welcome Header */}
+        {}
         <motion.div
           className="mb-8"
           initial={{ opacity: 0, y: -20 }}
@@ -254,7 +254,7 @@ const Dashboard = () => {
           </p>
         </motion.div>
 
-        {/* Stats Cards */}
+        {}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
           variants={containerVariants}
@@ -338,7 +338,7 @@ const Dashboard = () => {
           </motion.div>
         </motion.div>
 
-        {/* Action Bar */}
+        {}
         <motion.div
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6"
           initial={{ opacity: 0, y: 20 }}
@@ -382,7 +382,7 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        {/* Documents Grid */}
+        {}
         {loading ? (
           <div className="flex justify-center items-center py-12">
             <Loading size="lg" text="Loading documents..." />
@@ -409,7 +409,7 @@ const Dashboard = () => {
                       link.click();
                     }}
                     onEdit={(doc) => {
-                      // TODO: Implement edit functionality
+                      
                       toast.info('Edit functionality coming soon!');
                     }}
                     onDelete={handleDelete}
@@ -448,7 +448,7 @@ const Dashboard = () => {
           </>
         )}
 
-        {/* Modals */}
+        {}
         <AnimatePresence>
           {showUploadModal && (
             <DocumentUpload

@@ -89,9 +89,9 @@ const Home = () => {
   return (
     <AnimatedBackground variant="hero">
       <div className="min-h-screen">
-      {/* Hero Section */}
+      {}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        {/* Animated background elements */}
+        {}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute -top-40 -right-40 w-80 h-80 bg-primary-200 dark:bg-primary-900 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
@@ -185,7 +185,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
+      {}
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -232,7 +232,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {}
       <section className="py-20 bg-gradient-to-r from-primary-600 to-secondary-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -257,7 +257,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {}
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div

@@ -74,7 +74,7 @@ const Login = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
 
-    // Clear error when user starts typing
+    
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -120,7 +120,7 @@ const Login = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Logo and branding */}
+        {}
         <motion.div
           className="text-center mb-8"
           variants={itemVariants}
@@ -136,13 +136,13 @@ const Login = () => {
           </p>
         </motion.div>
 
-        {/* Login form */}
+        {}
         <motion.div
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700"
           variants={itemVariants}
         >
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email field */}
+            {}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address
@@ -173,7 +173,7 @@ const Login = () => {
               )}
             </div>
 
-            {/* Password field */}
+            {}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
@@ -211,7 +211,7 @@ const Login = () => {
               )}
             </div>
 
-            {/* Remember me and forgot password */}
+            {}
             <div className="flex items-center justify-between">
               <label className="flex items-center">
                 <input
@@ -235,7 +235,7 @@ const Login = () => {
               </button>
             </div>
 
-            {/* Submit button */}
+            {}
             <Button
               type="submit"
               loading={isSubmitting}
@@ -247,7 +247,7 @@ const Login = () => {
             </Button>
           </form>
 
-          {/* Sign up link */}
+          {}
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             Don't have an account?{' '}
             <Link
@@ -259,7 +259,7 @@ const Login = () => {
           </p>
         </motion.div>
 
-        {/* Security notice */}
+        {}
         <motion.p
           className="mt-8 text-center text-xs text-gray-500 dark:text-gray-400"
           variants={itemVariants}

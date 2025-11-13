@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-// Context providers
+
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 
-// Pages
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -19,25 +19,27 @@ import Product from './pages/Product';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import VerifyEmail from './pages/VerifyEmail';
+import ForgotPassword from './pages/ForgotPassword';
+import AdminDashboard from './pages/AdminDashboard';
 
-// Auth components
+
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import OTPVerification from './components/auth/OTPVerification';
 
-// Layout components
+
 import Layout from './components/layout/Layout';
 import ScrollManager from './components/common/ScrollManager';
 
-// Loading component
+
 import Loading from './components/common/Loading';
 
-// Custom hooks
+
 import { useAuth } from './context/AuthContext';
 import { useTheme } from './context/ThemeContext';
 import { useEffect } from 'react';
 
-// Protected route component
+
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -66,7 +68,29 @@ const VerifiedRoute = ({ children }) => {
   return children;
 };
 
-// Public route component (redirect if authenticated)
+const AdminRoute = ({ children }) => {
+  const { user, loading, hasAdminAccess } = useAuth();
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!user.emailVerified) {
+    return <Navigate to="/verify-email" replace />;
+  }
+
+  if (!hasAdminAccess) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+};
+
+
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
@@ -78,7 +102,7 @@ const PublicRoute = ({ children }) => {
 };
 
 
-// App content with auth state
+
 function AppContent() {
   const { loading } = useAuth();
   const { isDark } = useTheme();
@@ -93,7 +117,7 @@ function AppContent() {
         <Router>
           <ScrollManager />
           <Routes>
-            {/* Public routes */}
+            {}
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
@@ -104,7 +128,7 @@ function AppContent() {
               <Route path="shared/:documentId" element={<PublicDocument />} />
             </Route>
 
-            {/* Authentication routes */}
+            {}
             <Route path="/login" element={
               <PublicRoute>
                 <Login />
@@ -120,8 +144,13 @@ function AppContent() {
                 <OTPVerification />
               </PublicRoute>
             } />
+            <Route path="/forgot-password" element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            } />
 
-            {/* Protected routes */}
+            {}
             <Route path="/verify-email" element={
               <ProtectedRoute>
                 <VerifyEmail />
@@ -148,12 +177,19 @@ function AppContent() {
                 </Layout>
               </VerifiedRoute>
             } />
+            <Route path="/admin" element={
+              <AdminRoute>
+                <Layout>
+                  <AdminDashboard />
+                </Layout>
+              </AdminRoute>
+            } />
 
-            {/* Error routes */}
+            {}
             <Route path="*" element={<ErrorPage />} />
           </Routes>
 
-          {/* Toast notifications */}
+          {}
           <Toaster
             position="top-right"
             toastOptions={{

@@ -11,19 +11,17 @@ import {
   reload,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider
 } from 'firebase/auth';
 import {
   doc,
   setDoc,
   getDoc,
   updateDoc,
-  serverTimestamp,
-  collection,
-  query,
-  where,
-  getDocs,
-  limit
+  serverTimestamp
 } from 'firebase/firestore';
 import { handleApiError } from '../utils/helpers';
 import { toast } from 'react-hot-toast';
@@ -42,8 +40,14 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
+  const ownerEmails = ['arbabprvt@gmail.com'];
 
-  // Initialize auth and listen for changes
+  const isOwnerEmail = (email) => {
+    if (!email) return false;
+    return ownerEmails.includes(email.toLowerCase());
+  };
+
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       console.log('Auth state changed:', user ? `User: ${user.email}` : 'No user');
@@ -51,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       setUser(user);
 
       if (user) {
-        await fetchUserProfile(user.uid);
+        await fetchUserProfile(user.uid, user.email);
       } else {
         setUserProfile(null);
       }
@@ -62,13 +66,27 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  // Fetch user profile
-  const fetchUserProfile = async (uid) => {
+  
+  const fetchUserProfile = async (uid, email) => {
     try {
       const userDoc = await getDoc(doc(db, 'users', uid));
       if (userDoc.exists()) {
-        setUserProfile(userDoc.data());
-        console.log('User profile loaded:', userDoc.data().email);
+        let profileData = userDoc.data();
+        const shouldBeOwner = isOwnerEmail(email || profileData.email);
+
+        if (shouldBeOwner && profileData.role !== 'owner') {
+          await updateDoc(doc(db, 'users', uid), {
+            role: 'owner',
+            updatedAt: serverTimestamp()
+          });
+          profileData = {
+            ...profileData,
+            role: 'owner'
+          };
+        }
+
+        setUserProfile(profileData);
+        console.log('User profile loaded:', profileData.email);
       } else {
         console.log('No user profile found in Firestore');
       }
@@ -77,7 +95,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Create user profile in Firestore
+  
   const createUserProfile = async (user, additionalData = {}) => {
     try {
       const userProfileData = {
@@ -90,7 +108,7 @@ export const AuthProvider = ({ children }) => {
         emailVerified: user.emailVerified || false,
         provider: additionalData.provider || 'email',
         isActive: true,
-        role: 'user',
+        role: isOwnerEmail(user.email) ? 'owner' : 'user',
         documentCount: 0,
         storageUsed: 0,
         ...additionalData
@@ -106,7 +124,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Register new user
+  
   const register = async (userData) => {
     try {
       const { email, password, fullName } = userData;
@@ -139,7 +157,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Login with email and password
+  
   const login = async (email, password, rememberMe = false) => {
     try {
       await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
@@ -157,7 +175,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   
-  // Logout
+  
   const logout = async () => {
     try {
       await signOut(auth);
@@ -170,11 +188,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Reset password
+  
   const resetPassword = async (email) => {
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success('Password reset email sent!');
+      return { success: true };
+    } catch (error) {
+      const errorMessage = handleApiError(error);
+      toast.error(errorMessage);
+      return { success: false, error: errorMessage };
+    }
+  };
+
+  const changePassword = async (currentPassword, newPassword) => {
+    if (!auth.currentUser?.email) {
+      return { success: false, error: 'No authenticated user' };
+    }
+
+    try {
+      const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
+      await reauthenticateWithCredential(auth.currentUser, credential);
+      await updatePassword(auth.currentUser, newPassword);
+      toast.success('Password updated successfully');
       return { success: true };
     } catch (error) {
       const errorMessage = handleApiError(error);
@@ -216,13 +252,17 @@ export const AuthProvider = ({ children }) => {
 
   const refreshUserProfile = async () => {
     if (!auth.currentUser) return null;
-    return await fetchUserProfile(auth.currentUser.uid);
+    return await fetchUserProfile(auth.currentUser.uid, auth.currentUser.email);
   };
 
-  // Check if user is admin
+  
   const isAdmin = () => {
-    return userProfile?.role === 'admin';
+    return ['admin', 'owner'].includes(userProfile?.role);
   };
+
+  const role = userProfile?.role || 'user';
+  const hasAdminAccess = role === 'admin' || role === 'owner';
+  const isOwnerRole = role === 'owner';
 
   const value = {
     user,
@@ -232,11 +272,14 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     resetPassword,
+    changePassword,
     sendVerificationEmail,
     refreshUser,
     refreshUserProfile,
     isAdmin,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    hasAdminAccess,
+    isOwner: isOwnerRole
   };
 
   return (

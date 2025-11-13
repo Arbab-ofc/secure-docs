@@ -5,6 +5,7 @@ import { FiShield, FiTarget, FiUsers, FiAward, FiMail, FiGithub, FiLinkedin } fr
 
 import { useTheme } from '../context/ThemeContext';
 import Button from '../components/common/Button';
+import { getUserInitial } from '../utils/helpers';
 
 const About = () => {
   const { isDark } = useTheme();
@@ -68,7 +69,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Hero Section */}
+        {}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -84,7 +85,7 @@ const About = () => {
           </p>
         </motion.div>
 
-        {/* Mission Section */}
+        {}
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16"
           variants={containerVariants}
@@ -133,7 +134,7 @@ const About = () => {
           </motion.div>
         </motion.div>
 
-        {/* Values Section */}
+        {}
         <section className="mb-16">
           <motion.div
             className="text-center mb-12"
@@ -177,7 +178,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Team Section */}
+        {}
         <section className="mb-16">
           <motion.div
             className="text-center mb-12"
@@ -206,7 +207,7 @@ const About = () => {
               >
                 <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-white text-2xl font-bold">
-                    {member.name.charAt(0)}
+                    {getUserInitial(member.name, member.email)}
                   </span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -247,7 +248,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {}
         <motion.div
           className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 md:p-12 text-center"
           initial={{ opacity: 0, y: 20 }}

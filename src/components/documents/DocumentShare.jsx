@@ -85,7 +85,7 @@ const DocumentShare = ({
     e.preventDefault();
 
     if (!shareEnabled) {
-      // Disable sharing
+      
       onShare({
         ...document,
         shareEnabled: false,
@@ -94,7 +94,7 @@ const DocumentShare = ({
         qrCodeData: null
       });
     } else {
-      // Enable sharing
+      
       onShare({
         ...document,
         shareEnabled: true,
@@ -149,7 +149,7 @@ const DocumentShare = ({
         className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
         variants={containerVariants}
       >
-        {/* Header */}
+        {}
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -170,7 +170,7 @@ const DocumentShare = ({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Document Info */}
+          {}
           <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
             <h3 className="font-medium text-gray-900 dark:text-white mb-1 truncate">
               {document?.title}
@@ -180,7 +180,7 @@ const DocumentShare = ({
             </p>
           </div>
 
-          {/* Share Toggle */}
+          {}
           <div>
             <label className="flex items-center space-x-3 cursor-pointer">
               <input
@@ -201,7 +201,7 @@ const DocumentShare = ({
             </label>
           </div>
 
-          {/* Share Options */}
+          {}
           <AnimatePresence>
             {shareEnabled && (
               <motion.div
@@ -211,7 +211,7 @@ const DocumentShare = ({
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Share Link */}
+                {}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Share Link
@@ -242,7 +242,7 @@ const DocumentShare = ({
                   </div>
                 </div>
 
-                {/* Expiry Settings */}
+                {}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Link Expiry
@@ -265,7 +265,7 @@ const DocumentShare = ({
                   )}
                 </div>
 
-                {/* QR Code Toggle */}
+                {}
                 <div>
                   <Button
                     type="button"
@@ -278,7 +278,7 @@ const DocumentShare = ({
                   </Button>
                 </div>
 
-                {/* QR Code Display */}
+                {}
                 <AnimatePresence>
                   {showQRCode && (
                     <motion.div
@@ -316,7 +316,7 @@ const DocumentShare = ({
                   )}
                 </AnimatePresence>
 
-                {/* Share Statistics */}
+                {}
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-start space-x-3">
                     <FiEye className="text-blue-600 dark:text-blue-400 mt-0.5" />
@@ -332,7 +332,7 @@ const DocumentShare = ({
                   </div>
                 </div>
 
-                {/* Security Notice */}
+                {}
                 <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
                   <div className="flex items-start space-x-3">
                     <FiShield className="text-yellow-600 dark:text-yellow-400 mt-0.5" />
@@ -351,7 +351,7 @@ const DocumentShare = ({
             )}
           </AnimatePresence>
 
-          {/* Actions */}
+          {}
           <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
             <Button
               type="button"

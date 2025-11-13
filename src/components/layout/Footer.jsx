@@ -122,9 +122,9 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main footer content */}
+        {}
         <div className="py-10 sm:py-14 space-y-8">
-          {/* CTA */}
+          {}
           <motion.div
             className="bg-white/80 dark:bg-gray-900/80 backdrop-blur shadow-md rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-gray-800"
             initial={{ opacity: 0, y: 30 }}
@@ -168,7 +168,7 @@ const Footer = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {/* Brand section */}
+            {}
             <motion.div
               className="bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-200 dark:border-gray-800 h-full"
               variants={itemVariants}
@@ -186,7 +186,7 @@ const Footer = () => {
                 A secure and professional platform for storing and sharing your important government documents with family members.
               </p>
 
-              {/* Social links */}
+              {}
               <div className="flex flex-wrap items-center gap-3">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
@@ -208,7 +208,7 @@ const Footer = () => {
               </div>
             </motion.div>
 
-            {/* Footer sections */}
+            {}
             <motion.div
               className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4"
               variants={itemVariants}
@@ -241,7 +241,7 @@ const Footer = () => {
                 </div>
               </div>
 
-              {/* Contact card */}
+              {}
               <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-2xl p-5 border border-gray-200 dark:border-gray-800 col-span-1 sm:col-span-2">
                 <h3 className="text-xs font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-widest mb-3">
                   Get in touch
@@ -280,10 +280,10 @@ const Footer = () => {
           </motion.div>
         </div>
 
-        {/* Bottom section */}
+        {}
         <div className="py-6 border-t border-gray-200 dark:border-gray-800">
           <div className="flex flex-col gap-5">
-            {/* Legal + credit */}
+            {}
             <motion.div
               className="flex flex-col gap-2 text-center sm:text-left sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0, y: 15 }}
@@ -307,7 +307,7 @@ const Footer = () => {
               </div>
             </motion.div>
 
-            {/* Bottom actions */}
+            {}
             <motion.div
               className="grid grid-cols-1 gap-3 sm:grid-cols-3"
               initial={{ opacity: 0, y: 15 }}
@@ -343,7 +343,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Decorative gradient border */}
+      {}
       <div className="h-1 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500" />
     </footer>
   );

@@ -1,7 +1,7 @@
 import { cloudinaryConfig, folderStructure, transformOptions } from '../config/cloudinary';
 
 class CloudinaryService {
-  // Upload file to Cloudinary
+  
   async uploadFile(file, options = {}) {
     try {
       const {
@@ -10,22 +10,22 @@ class CloudinaryService {
         transformation = null
       } = options;
 
-      // Create form data for upload
+      
       const formData = new FormData();
 
-      // Required parameters
+      
       formData.append('file', file);
       formData.append('upload_preset', cloudinaryConfig.uploadPreset);
       formData.append('folder', `${cloudinaryConfig.baseFolder}/${folder}`);
       formData.append('cloud_name', cloudinaryConfig.cloudName);
       formData.append('resource_type', resourceType);
 
-      // Optional parameters
+      
       if (transformation) {
         formData.append('transformation', transformation);
       }
 
-      // Add tags for better organization
+      
       formData.append('tags', [
         'secure-docs',
         folder,
@@ -33,10 +33,10 @@ class CloudinaryService {
         options.category || 'general'
       ].join(','));
 
-      // Add context metadata
+      
       formData.append('context', `alt=${file.name}|caption=${options.description || ''}`);
 
-      // Upload to Cloudinary
+      
       const response = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/${resourceType}/upload`,
         {
@@ -52,7 +52,7 @@ class CloudinaryService {
 
       const result = await response.json();
 
-      // Transform the response to our format
+      
       const uploadResult = {
         success: true,
         publicId: result.public_id,
@@ -65,10 +65,10 @@ class CloudinaryService {
         height: result.height,
         pages: result.pages,
         duration: result.duration,
-        // Thumbnail URLs
+        
         thumbnailUrl: this.getThumbnailUrl(result.secure_url, result.resource_type),
         mediumUrl: this.getTransformedUrl(result.secure_url, transformOptions.medium),
-        // Metadata
+        
         filename: result.original_filename,
         fileType: file.type,
         createdAt: new Date(result.created_at * 1000),
@@ -86,29 +86,29 @@ class CloudinaryService {
     }
   }
 
-  // Get thumbnail URL for a file
+  
   getThumbnailUrl(url, resourceType) {
     if (!url) return null;
 
     if (resourceType === 'image') {
-      // Return a smaller version of the image
+      
       return this.getTransformedUrl(url, transformOptions.thumbnail);
     } else if (resourceType === 'raw') {
-      // For documents like PDF, use a document icon
-      return '/assets/icons/document-icon.png'; // Would need to create this asset
+      
+      return '/assets/icons/document-icon.png'; 
     } else if (resourceType === 'video') {
-      // Extract thumbnail from video
+      
       return this.getTransformedUrl(url, {
         ...transformOptions.thumbnail,
         format: 'jpg',
-        start_offset: 1 // Get thumbnail from 1 second into video
+        start_offset: 1 
       });
     }
 
     return null;
   }
 
-  // Get transformed URL
+  
   getTransformedUrl(url, transformations) {
     if (!url || !transformations) return url;
 
@@ -138,11 +138,11 @@ class CloudinaryService {
     return url;
   }
 
-  // Delete file from Cloudinary
+  
   async deleteFile(publicId, resourceType = 'auto') {
     try {
-      // In a real implementation, this would need to be done via backend
-      // as it requires signature generation
+      
+      
       console.warn('Delete operation should be handled via backend for security');
 
       return {
@@ -158,9 +158,9 @@ class CloudinaryService {
     }
   }
 
-  // Validate file before upload
+  
   validateFile(file) {
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    const maxSize = 10 * 1024 * 1024; 
     const allowedTypes = [
       'image/jpeg',
       'image/png',
@@ -187,12 +187,12 @@ class CloudinaryService {
     };
   }
 
-  // Get upload progress (for large files)
+  
   getUploadProgress(file) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
 
-      // Track progress
+      
       xhr.upload.addEventListener('progress', (event) => {
         if (event.lengthComputable) {
           const percentComplete = (event.loaded / event.total) * 100;
@@ -208,24 +208,24 @@ class CloudinaryService {
         reject(new Error('Upload cancelled'));
       });
 
-      // Note: The actual upload logic would be implemented here
-      // This is just a skeleton for progress tracking
+      
+      
     });
   }
 
-  // Get folder structure for a category
+  
   getFolderPath(category) {
     return folderStructure[category] || folderStructure.others;
   }
 
-  // Generate upload signature (backend only)
+  
   generateUploadSignature(params) {
-    // This should be implemented on the backend
-    // Never expose API secrets on the client side
+    
+    
     throw new Error('Signature generation must be done on the backend');
   }
 
-  // Batch upload multiple files
+  
   async uploadMultipleFiles(files, options = {}) {
     const uploadPromises = [];
     const results = [];
@@ -268,10 +268,10 @@ class CloudinaryService {
     }
   }
 
-  // Get file info from URL
+  
   async getFileInfo(url) {
     try {
-      // Extract public ID from Cloudinary URL
+      
       const matches = url.match(/\/upload\/(?:v\d+\/)?([^\.]+)/);
       if (!matches) {
         throw new Error('Invalid Cloudinary URL');
@@ -279,8 +279,8 @@ class CloudinaryService {
 
       const publicId = matches[1];
 
-      // In a real implementation, this would fetch file info via API
-      // For now, return basic info extracted from URL
+      
+      
       return {
         success: true,
         publicId,
@@ -295,7 +295,7 @@ class CloudinaryService {
     }
   }
 
-  // Optimize image for web
+  
   optimizeForWeb(url, options = {}) {
     const defaultOptimizations = {
       quality: 'auto:good',
@@ -308,7 +308,7 @@ class CloudinaryService {
     return this.getTransformedUrl(url, optimizations);
   }
 
-  // Generate responsive image URLs
+  
   generateResponsiveUrls(url) {
     return {
       thumbnail: this.getTransformedUrl(url, transformOptions.thumbnail),
@@ -323,12 +323,12 @@ class CloudinaryService {
     };
   }
 
-  // Create signed URL for secure delivery
+  
   createSignedUrl(url, options = {}) {
-    // This would need to be implemented on the backend
+    
     throw new Error('Signed URL generation must be done on the backend');
   }
 }
 
-// Export singleton instance
+
 export default new CloudinaryService();

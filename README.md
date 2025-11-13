@@ -1,46 +1,45 @@
-# 🔐 SecureDocs &mdash; Document Management Platform
+# 🔐 SecureDocs — Document Management Platform
 
-> A modern React + Firebase platform for storing, sharing, and safeguarding vital documents for your family or team.
+> SecureDocs is a modern React + Firebase platform to collect, store, and share sensitive family or business paperwork—with enterprise‑grade controls, Cloudinary media handling, and an owner/admin back office.
 
-[![Live Repo](https://img.shields.io/badge/GitHub-Arbab--ofc%2Fsecure--docs-181717?logo=github&style=flat-square)](https://github.com/Arbab-ofc/secure-docs)
-[![Built with Vite](https://img.shields.io/badge/Built%20with-Vite-646CFF?logo=vite&style=flat-square)](#-tech-stack)
-[![Firebase Ready](https://img.shields.io/badge/Backend-Firebase-FFCA28?logo=firebase&style=flat-square)](#-infrastructure)
-
----
-
-## ✨ Highlights
-
-- 📁 **Vault‑grade storage** – Organize passports, licenses, or business documents in structured folders with role-aware sharing.
-- 👥 **Family-first collaboration** – Invite relatives, track shared links, and switch between private and public document views.
-- ☁️ **Cloud-native uploads** – Cloudinary keeps originals secure while responsive previews load instantly across devices.
-- 🔒 **Zero-friction security** – Email verification, OTP onboarding, and protected routes ensure only trusted users get access.
-- 🌗 **Adaptive UI** – Theme toggles, glassmorphism surfaces, and Tailwind-powered layouts feel at home on iOS, Android, and desktop.
+[![GitHub](https://img.shields.io/badge/GitHub-Arbab--ofc%2Fsecure--docs-181717?logo=github&style=flat-square)](https://github.com/Arbab-ofc/secure-docs)
+[![Vite](https://img.shields.io/badge/Built%20with-Vite-646CFF?logo=vite&style=flat-square)](#-tech-stack)
+[![Firebase](https://img.shields.io/badge/Backend-Firebase-FFCA28?logo=firebase&style=flat-square)](#-infrastructure)
+[![Cloudinary](https://img.shields.io/badge/Assets-Cloudinary-3693F3?logo=cloudinary&style=flat-square)](#-cloudinary-setup)
 
 ---
 
-## 🧠 Architecture Overview
+## ✨ Why SecureDocs?
 
-| Layer | Highlights |
+- 📁 **Structured vaults** with categorisation, tags, preview thumbnails, and public share links or QR codes.
+- 🔐 **Multi-layer security**: OTP onboarding, email verification, protected routes, owner/admin permissions, and role promotion.
+- ☁️ **Cloud-native uploads** powered by Cloudinary, ensuring originals remain untouched while optimized previews are served.
+- 📲 **Responsive UX** built with Tailwind, Material Tailwind and framer-motion so dashboards, admin panels, and public links feel consistent on mobile/tablet/desktop.
+- 🔭 **Owner console** lets the super-user (e.g., `arbabprvt@gmail.com`) audit all accounts, read contact submissions, and promote members to admin/owner.
+
+---
+
+## 🧱 Architecture & Stack
+
+| Layer | Details |
 | --- | --- |
-| **Client** | React 19 + Vite, React Router v7, framer-motion transitions, Tailwind + Material Tailwind components. |
-| **Auth** | Firebase Authentication, email verification flow, OTP verification component for two-step checks. |
-| **Storage** | Firebase Firestore for metadata, Firebase Storage / Cloudinary for binary uploads and sharing links. |
-| **State** | Context API for auth + theming, custom hooks (`useAuth`, `useTheme`) shared across layouts. |
-| **DX** | ESLint 9, React Refresh, modular file structure (pages, components, services, utils). |
+| **UI** | React 19, React Router 7, Vite 7, framer-motion, Tailwind CSS 3, Material Tailwind kit. |
+| **State** | Context API (`AuthContext`, `ThemeContext`), custom hooks, React Hot Toast for feedback. |
+| **Backend as a Service** | Firebase Auth + Firestore (metadata, roles, contact form), Firebase Storage (optional) & Cloudinary for binary assets. |
+| **Utilities** | axios, react-hook-form, clsx/tailwind-merge, date-fns, QR utilities, responsive helpers. |
+| **DX** | ESLint 9, React Refresh, npm scripts for dev/build/preview/lint. |
 
----
-
-## 🧭 Project Structure
+Directory snapshot:
 
 ```
 src/
-├─ components/      # Layout, auth, common UI
-├─ context/         # Auth + Theme providers
-├─ hooks/           # Custom hooks
-├─ pages/           # Route-level views (Home, Dashboard, Profile, etc.)
-├─ services/        # API + Firebase helpers
-├─ utils/           # Formatters, constants
-└─ config/          # Firebase + Cloudinary setup
+├─ components/        # Layouts, auth forms, profile widgets, admin UI
+├─ context/           # Auth + Theme providers
+├─ pages/             # Route-level screens (Home, Dashboard, Admin, Public doc, etc.)
+├─ services/          # Firebase/Cloudinary helpers, admin service, document service
+├─ utils/             # Formatters, validators, helpers
+├─ config/            # Firebase + Cloudinary bootstrapping
+└─ styles/assets/...  # Tailwind layers, shared assets
 ```
 
 ---
@@ -55,119 +54,155 @@ cd secure-docs
 npm install
 ```
 
-### 2. Configure environment
+### 2. Environment variables
 
 Create `.env` in the project root:
 
 ```bash
-VITE_FIREBASE_API_KEY=your_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_API_KEY=xxx
+VITE_FIREBASE_AUTH_DOMAIN=xxx.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=xxx
+VITE_FIREBASE_STORAGE_BUCKET=xxx.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=xxx
+VITE_FIREBASE_APP_ID=xxx
 
-VITE_CLOUDINARY_CLOUD_NAME=cloud_name
+VITE_CLOUDINARY_CLOUD_NAME=xxx
 VITE_CLOUDINARY_UPLOAD_PRESET=unsigned_preset
 VITE_CLOUDINARY_BASE_FOLDER=secure-documents
 VITE_CLOUDINARY_FOLDER_MODE=dynamic
 ```
 
-> ⚠️ Restart the dev server whenever you change `.env` values so Vite picks them up.
+Restart `npm run dev` whenever you edit `.env` so Vite reloads values.
 
-### 3. Run locally
+### 3. Local development
 
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:5173` and explore the app. Register a user, verify email, then unlock the dashboard.
+Visit `http://localhost:5173`. Register, verify email, and explore the dashboard/admin flows.
 
-### 4. Build for production
+### 4. Production build
 
 ```bash
 npm run build
-npm run preview   # Optional smoke test
+npm run preview   # optional smoke test against the built bundle
 ```
 
-Deploy the `dist` folder to your preferred static host (Vercel, Netlify, Firebase Hosting, etc.).
+Deploy the `dist/` folder (Vercel/Netlify/Firebase Hosting). Firebase Hosting quick steps:
+
+```bash
+firebase login
+firebase init hosting  # pick project, set public dir to dist, SPA redirect = yes
+npm run build
+firebase deploy --only hosting
+```
 
 ---
 
-## 🧩 Core Features
+## ☁️ Cloudinary Setup
 
-| Feature | Description |
+1. Create an unsigned upload preset that allows the file types you plan to support.
+2. Configure base folder (e.g., `secure-documents`) and optional subfolder strategy via `VITE_CLOUDINARY_FOLDER_MODE`.
+3. Keep the preset name and cloud name in `.env`. The document uploader uses these values directly.
+
+---
+
+## 🔐 Security & Roles
+
+- **Owner auto-detection**: `arbabprvt@gmail.com` is promoted to `owner` when signing in; owners can promote/demote other accounts and view every contact submission.
+- **Admin board**: `/admin` route shows user counts, roles, contact messages, and actions to promote to admin/owner (owner-only for owner role).
+- **Route guards**: `ProtectedRoute`, `VerifiedRoute`, `AdminRoute`, and `PublicRoute` ensure only the correct audience loads each screen.
+- **Password flows**: Login page includes “Forgot password?” linking to a reset view; profile includes instant change-password with reauthentication.
+
+Sample Firestore rule snippet (adapt for your project):
+
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function currentUserRole() {
+      return request.auth != null
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : null;
+    }
+    function isAdminOrOwner() {
+      return ['admin', 'owner'].hasAny([currentUserRole()]);
+    }
+    function isOwner() {
+      return currentUserRole() == 'owner';
+    }
+
+    match /users/{userId} {
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || isAdminOrOwner());
+      allow create: if request.auth != null;
+      allow update: if request.auth != null &&
+        (request.auth.uid == userId ||
+          (isOwner() && request.resource.data.role != null));
+      allow delete: if false;
+    }
+
+    match /contacts/{contactId} {
+      allow create: if (request.auth != null &&
+        request.resource.data.userId == request.auth.uid) ||
+        (request.auth == null && request.resource.data.userId == null);
+      allow read, update, delete: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdminOrOwner());
+    }
+
+    // …keep the rest of your document/OTP/share rules here
+  }
+}
+```
+
+---
+
+## 🧩 Feature Highlights
+
+| Feature | Details |
 | --- | --- |
-| 📂 **Smart folders** | Filter by tags, types, or reference numbers; share read-only or editable links. |
-| 🔐 **Security Suite** | OTP verification, email verification, protected + verified routes, toast notifications for auth state. |
-| 👤 **Profile Center** | Edit bio, avatar, contact data, and manage trusted contacts. |
-| 💌 **Sharing & QR** | Public document view via `/shared/:documentId`, QR-based access, Cloudinary-backed links. |
-| 🌙 **Theme-aware UI** | Context-powered dark mode, animated gradients, responsive footer/contact cards. |
-| 📱 **Mobile-first footer** | CTA card, contact details, and scroll manager to ensure anchor links land at the right spot. |
+| 📂 **Document Vault** | Categorised uploads, tag search, share toggles, QR download cards, responsive cards. |
+| 📨 **Public sharing** | `/shared/:id` screen with pass-through metadata, copy link, QR code, and security notice. |
+| 👤 **Profile Center** | Avatar uploads (Cloudinary), contact info, Aadhaar field, quick edit form. |
+| 🔁 **Password tools** | Forgot password (email reset) + change password (reauth + validation) baked into profile. |
+| 🌗 **Theme + Toaster** | Global dark/light toggle, themed toasts, scroll manager for anchor navigation. |
+| 🧑‍💼 **Admin Dashboard** | Metrics, responsive user lists, role actions, contact message viewer, refresh control. |
+| 🧠 **Helpers** | `getUserInitial`, validators, share URL builder, clipboard util, debounced search. |
 
 ---
 
-## 🛠 Tech Stack
+## 📦 Scripts
 
-- ⚛️ React 19 + React Router 7
-- ⚡ Vite 7, ESBuild, React Refresh
-- 🎨 Tailwind CSS 3, Material Tailwind, Framer Motion, clsx
-- 🔥 Firebase (Auth, Firestore, Storage)
-- ☁️ Cloudinary (upload presets, secure folders)
-- 🧰 react-hook-form, react-hot-toast, axios, date-fns, QR utilities
-
----
-
-## 📦 NPM Scripts
-
-| Command | Purpose |
+| Command | Description |
 | --- | --- |
 | `npm run dev` | Start Vite dev server with HMR. |
-| `npm run build` | Bundle production assets. |
-| `npm run preview` | Preview the production build locally. |
-| `npm run lint` | Run ESLint (`eslint.config.js`). |
+| `npm run build` | Generate production assets. |
+| `npm run preview` | Preview the production bundle locally. |
+| `npm run lint` | Run ESLint using `eslint.config.js`. |
 
 ---
 
-## 🌐 Deployment Checklist
+## 🛣️ Deployment Checklist
 
-1. ✅ Firebase project created with Web app credentials.
-2. ✅ Cloudinary unsigned preset created & limited to required file types.
-3. ✅ `.env` configured on hosting provider (Vercel/Netlify/Firebase Hosting).
-4. ✅ `npm run build` passes locally.
-5. ✅ Firestore/Storage security rules reviewed for your use case.
+1. ✅ Firebase project configured (Auth + Firestore + Hosting if used).
+2. ✅ Firestore rules updated with admin/owner permissions (see snippet).
+3. ✅ Cloudinary preset created and `.env` loaded in hosting provider.
+4. ✅ `npm run build` passes locally; `firebase deploy --only hosting` (or platform-specific deploy) succeeds.
+5. ✅ Test `/dashboard`, `/profile`, `/admin`, and `/shared/:id` after deployment to confirm routes and guards.
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repo on GitHub.
-2. Create a feature branch: `git checkout -b feat/amazing-idea`.
-3. Commit with clear messages and follow existing lint/style rules.
-4. Submit a PR describing motivation, screenshots, and testing notes.
+1. Fork and branch: `git checkout -b feat/thing`.
+2. Keep lint clean (`npm run lint`).
+3. Provide screenshots or screencasts for UI changes.
+4. Open a PR with context + testing notes.
 
 ---
 
-## 🧾 License
-
-This project is licensed under the MIT License. See `LICENSE` (or the repository page) for full text.
-
----
-
-## 🙋 FAQ
-
-- **Can I run SecureDocs without Firebase?**  
-  Not yet. Auth + storage rely on Firebase, but you can fork the repo and plug in Supabase or another BaaS.
-
-- **Where do uploads live?**  
-  Binary files go to Cloudinary; metadata, user mappings, and OTPs live in Firestore.
-
-- **Does it work offline?**  
-  Not currently. Add a PWA shell or service worker if offline access is a priority.
-
----
-
-## 💬 Need Help?
+## 💬 Support
 
 - 📧 `arbabprvt@gmail.com`
 - 🔗 [LinkedIn](https://www.linkedin.com/in/arbab-ofc/)

@@ -2,12 +2,12 @@ import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { format } from 'date-fns';
 
-// Utility function for merging Tailwind classes
+
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-// Format date utility
+
 export const formatDate = (date, formatString = 'PPP') => {
   if (!date) return 'N/A';
 
@@ -20,7 +20,7 @@ export const formatDate = (date, formatString = 'PPP') => {
   }
 };
 
-// Format file size
+
 export const formatFileSize = (bytes) => {
   if (bytes === 0) return '0 Bytes';
 
@@ -31,7 +31,7 @@ export const formatFileSize = (bytes) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 
-// Format duration (for upload progress, etc.)
+
 export const formatDuration = (seconds) => {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
@@ -46,7 +46,7 @@ export const formatDuration = (seconds) => {
   }
 };
 
-// Generate unique ID
+
 export const generateId = (prefix = '') => {
   return `${prefix}${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };
@@ -82,7 +82,7 @@ export const copyToClipboard = async (text) => {
   }
 };
 
-// Download file utility
+
 export const downloadFile = async (url, filename) => {
   try {
     const response = await fetch(url);
@@ -104,7 +104,7 @@ export const downloadFile = async (url, filename) => {
   }
 };
 
-// Debounce utility
+
 export const debounce = (func, wait) => {
   let timeout;
   return function executedFunction(...args) {
@@ -117,7 +117,7 @@ export const debounce = (func, wait) => {
   };
 };
 
-// Throttle utility
+
 export const throttle = (func, limit) => {
   let inThrottle;
   return function() {
@@ -131,7 +131,7 @@ export const throttle = (func, limit) => {
   };
 };
 
-// Search utility
+
 export const searchDocuments = (documents, searchTerm) => {
   if (!searchTerm || searchTerm.trim() === '') {
     return documents;
@@ -156,13 +156,13 @@ export const sortDocuments = (documents, sortBy, sortOrder = 'asc') => {
     let aValue = a[sortBy];
     let bValue = b[sortBy];
 
-    // Handle dates
+    
     if (sortBy === 'createdAt' || sortBy === 'updatedAt') {
       aValue = aValue?.toDate ? aValue.toDate() : new Date(aValue);
       bValue = bValue?.toDate ? bValue.toDate() : new Date(bValue);
     }
 
-    // Handle strings
+    
     if (typeof aValue === 'string') {
       aValue = aValue.toLowerCase();
       bValue = bValue?.toLowerCase() || '';
@@ -177,15 +177,15 @@ export const sortDocuments = (documents, sortBy, sortOrder = 'asc') => {
   return sorted;
 };
 
-// Filter utility
+
 export const filterDocuments = (documents, filters) => {
   return documents.filter(doc => {
-    // Category filter
+    
     if (filters.category && filters.category !== 'all') {
       if (doc.category !== filters.category) return false;
     }
 
-    // Date range filter
+    
     if (filters.dateFrom) {
       const docDate = doc.createdAt?.toDate ? doc.createdAt.toDate() : new Date(doc.createdAt);
       if (docDate < new Date(filters.dateFrom)) return false;
@@ -196,7 +196,7 @@ export const filterDocuments = (documents, filters) => {
       if (docDate > new Date(filters.dateTo)) return false;
     }
 
-    // Search filter
+    
     if (filters.search) {
       const searchTerm = filters.search.toLowerCase();
       const searchableText = `${doc.title} ${doc.description} ${doc.documentType}`.toLowerCase();
@@ -207,7 +207,13 @@ export const filterDocuments = (documents, filters) => {
   });
 };
 
-// Validation helper
+
+export const getUserInitial = (name, email) => {
+  const source = name?.trim() || email?.trim();
+  return source ? source.charAt(0).toUpperCase() : '?';
+};
+
+
 export const validateRequired = (value, fieldName) => {
   if (!value || (typeof value === 'string' && value.trim() === '')) {
     return `${fieldName} is required`;
@@ -239,13 +245,13 @@ export const handleApiError = (error) => {
   return error.message || 'An unexpected error occurred.';
 };
 
-// Storage utilities
+
 export const getStorageItem = (key, defaultValue = null) => {
   try {
     const item = localStorage.getItem(key);
     if (!item) return defaultValue;
 
-    // Try to parse as JSON first, if it fails return as string
+    
     try {
       return JSON.parse(item);
     } catch {
@@ -277,7 +283,7 @@ export const removeStorageItem = (key) => {
   }
 };
 
-// Clear corrupted localStorage data
+
 export const clearCorruptedStorage = () => {
   try {
     const keysToClean = ['theme'];
@@ -285,9 +291,9 @@ export const clearCorruptedStorage = () => {
       const item = localStorage.getItem(key);
       if (item) {
         try {
-          JSON.parse(item); // Test if it's valid JSON
+          JSON.parse(item); 
         } catch {
-          // If parsing fails, remove the corrupted item
+          
           localStorage.removeItem(key);
           console.log(`Cleared corrupted localStorage item: ${key}`);
         }
@@ -316,5 +322,6 @@ export default {
   handleApiError,
   getStorageItem,
   setStorageItem,
-  removeStorageItem
+  removeStorageItem,
+  getUserInitial
 };
